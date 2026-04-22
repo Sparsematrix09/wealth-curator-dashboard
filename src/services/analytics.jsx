@@ -1,95 +1,110 @@
 import React, { createContext, useEffect } from 'react';
 
-// Global variable to track events (since hooks can't be used outside components)
-let analyticsEvents = [];
-let pageViews = [];
+// ============================================
+// GA4 INITIALIZATION - Add this section
+// ============================================
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
-// Function to save to localStorage (using the same pattern as useLocalStorage)
-const saveToLocalStorage = (key, value) => {
-  try {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.error('Error saving to localStorage:', error);
+const initGA4 = () => {
+  if (typeof window !== 'undefined' && GA_MEASUREMENT_ID && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX') {
+    // Check if script already exists
+    if (!document.querySelector('script[src*="googletagmanager"]')) {
+      // Load GA4 script
+      const script = document.createElement('script');
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+      script.async = true;
+      document.head.appendChild(script);
+      
+      // Initialize gtag
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function() {
+        window.dataLayer.push(arguments);
+      };
+      window.gtag('js', new Date());
+      window.gtag('config', GA_MEASUREMENT_ID);
+      
+      console.log('✅ GA4 initialized with ID:', GA_MEASUREMENT_ID);
+    }
+  } else {
+    console.log('⚠️ GA4 not initialized - No valid Measurement ID found');
+    console.log('Current ID:', GA_MEASUREMENT_ID);
   }
 };
 
-const loadFromLocalStorage = (key, defaultValue) => {
+// Call this immediately when the module loads
+initGA4();
+// ============================================
+
+// Simple working analytics with localStorage
+const trackEventLocal = (action, category, label, value) => {
+  console.log('[Analytics]', { action, category, label, value });
+  
+  // Store in localStorage
   try {
-    const item = window.localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultValue;
+    const existingEvents = localStorage.getItem('analytics_events');
+    const events = existingEvents ? JSON.parse(existingEvents) : [];
+    
+    events.push({
+      action,
+      category,
+      label,
+      value: value || null,
+      timestamp: new Date().toISOString(),
+      url: window.location.pathname
+    });
+    
+    const trimmedEvents = events.slice(-100);
+    localStorage.setItem('analytics_events', JSON.stringify(trimmedEvents));
+    
+    console.log(`✅ Stored event - Total: ${events.length}`);
   } catch (error) {
-    console.error('Error reading from localStorage:', error);
-    return defaultValue;
+    console.error('Error storing event:', error);
   }
-};
-
-// Initialize from localStorage
-analyticsEvents = loadFromLocalStorage('analytics_events', []);
-pageViews = loadFromLocalStorage('analytics_page_views', []);
-
-// Send to GA4 (if available)
-const sendToGA4 = (action, category, label, value) => {
+  
+  // Send to GA4 if available
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', action, {
       event_category: category,
       event_label: label,
       value: value,
     });
+    console.log('✅ Sent to GA4');
+  } else {
+    console.log('⚠️ GA4 not available - event not sent to Google');
   }
-};
-
-// Store in localStorage
-const storeInLocalStorage = (action, category, label, value) => {
-  analyticsEvents.push({
-    action,
-    category,
-    label,
-    value,
-    timestamp: new Date().toISOString(),
-    url: window.location.pathname
-  });
-  
-  // Keep only last 100 events
-  if (analyticsEvents.length > 100) {
-    analyticsEvents = analyticsEvents.slice(-100);
-  }
-  
-  saveToLocalStorage('analytics_events', analyticsEvents);
-};
-
-const trackEventLocal = (action, category, label, value) => {
-  // Send to GA4
-  sendToGA4(action, category, label, value);
-  
-  // Store in localStorage
-  storeInLocalStorage(action, category, label, value);
-  
-  // Log to console
-  console.log('[Analytics]', { action, category, label, value });
 };
 
 const trackPageViewLocal = (pagePath) => {
-  // Send to GA4
+  console.log('[Analytics Page View]', pagePath);
+  
+  // Store in localStorage
+  try {
+    const existingViews = localStorage.getItem('analytics_page_views');
+    const views = existingViews ? JSON.parse(existingViews) : [];
+    
+    views.push({
+      path: pagePath,
+      timestamp: new Date().toISOString()
+    });
+    
+    const trimmedViews = views.slice(-50);
+    localStorage.setItem('analytics_page_views', JSON.stringify(trimmedViews));
+    
+    console.log(`✅ Stored page view - Total: ${views.length}`);
+  } catch (error) {
+    console.error('Error storing page view:', error);
+  }
+  
+  // Send to GA4 if available
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'page_view', {
       page_path: pagePath,
       page_title: document.title,
     });
+    console.log('✅ Page view sent to GA4');
+  } else {
+    console.log('⚠️ GA4 not available - page view not sent to Google');
   }
-  
-  // Store in localStorage
-  pageViews.push({
-    path: pagePath,
-    timestamp: new Date().toISOString()
-  });
-  
-  if (pageViews.length > 50) {
-    pageViews = pageViews.slice(-50);
-  }
-  
-  saveToLocalStorage('analytics_page_views', pageViews);
-  
-  console.log('[Analytics Page View]', pagePath);
 };
 
 export const AnalyticsContext = createContext({
@@ -99,6 +114,8 @@ export const AnalyticsContext = createContext({
 
 export const AnalyticsProvider = ({ children }) => {
   useEffect(() => {
+    console.log('✅ AnalyticsProvider mounted');
+    console.log('GA4 Status:', typeof window.gtag === 'function' ? '✅ Available' : '❌ Not available');
     trackPageViewLocal(window.location.pathname);
   }, []);
 
@@ -112,21 +129,16 @@ export const AnalyticsProvider = ({ children }) => {
   );
 };
 
-// Helper functions for debugging
+// Helper functions
 export const getAnalyticsData = () => {
   return {
-    events: loadFromLocalStorage('analytics_events', []),
-    pageViews: loadFromLocalStorage('analytics_page_views', [])
+    events: JSON.parse(localStorage.getItem('analytics_events') || '[]'),
+    pageViews: JSON.parse(localStorage.getItem('analytics_page_views') || '[]')
   };
 };
 
 export const clearAnalyticsData = () => {
   localStorage.removeItem('analytics_events');
   localStorage.removeItem('analytics_page_views');
-  analyticsEvents = [];
-  pageViews = [];
-  console.log('Analytics data cleared');
+  console.log('✅ Analytics data cleared');
 };
-
-// Export the hook for use in components
-export { useLocalStorage } from '../hooks/useLocalStorage';
