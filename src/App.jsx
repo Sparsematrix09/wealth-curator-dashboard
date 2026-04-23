@@ -17,7 +17,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/insights" element={<InsightsPage />} />
-                <Route path="/accounts" element={<div className="p-6 text-center text-gray-500">Accounts Page</div>} />
+                <Route path="/accounts" element={<div className="p-6 text-center text-gray-500">Accounts Page; Why did i choose this and some more pages to be blank? I will tell</div>} />
                 <Route path="/transactions" element={<div className="p-6 text-center text-gray-500">Transactions Page</div>} />
                 <Route path="/budgets" element={<div className="p-6 text-center text-gray-500">Budgets Page</div>} />
               </Routes>
