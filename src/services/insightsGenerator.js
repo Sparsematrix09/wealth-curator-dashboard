@@ -1,6 +1,5 @@
-// Generate dynamic insights based on portfolio data
+// generate dynamic insights based on portfolio data
 export const generateDetailedInsights = () => {
-  // Simulate dynamic data that would come from an API
   const techExposureIncrease = 14.2;
   const duplicateSubscriptions = 2;
   const subscriptionSavings = 160;
@@ -60,7 +59,7 @@ export const generateDetailedInsights = () => {
   };
 };
 
-// Original simple insights for dashboard
+// simpler insights for dashboard
 export const generateInsights = (portfolioData) => {
   return {
     title: 'Optimizing your portfolio for the upcoming Q3 market shift',

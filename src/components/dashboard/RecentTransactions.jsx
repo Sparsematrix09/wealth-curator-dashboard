@@ -13,15 +13,15 @@ const RecentTransactions = () => {
   const filteredTransactions = useMemo(() => {
     if (!transactions) return [];
     
-    let filtered = [...transactions];
+    let filtered=[...transactions];
     
     if (debouncedSearch) {
-      filtered = filtered.filter(t => 
+      filtered=filtered.filter(t => 
         t.merchant.toLowerCase().includes(debouncedSearch.toLowerCase())
       );
     }
     
-    if (filter !== 'all') {
+    if (filter!=='all') {
       filtered = filtered.filter(t => t.category.toLowerCase() === filter.toLowerCase());
     }
     
@@ -31,7 +31,7 @@ const RecentTransactions = () => {
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-red-500" role="alert">Error loading transactions</div>;
 
-  const categories = ['all', ...new Set(transactions?.map(t => t.category.toLowerCase()) || [])];
+  const categories=['all', ...new Set(transactions?.map(t => t.category.toLowerCase()) || [])];
 
   return (
     <Card>
@@ -94,20 +94,20 @@ const RecentTransactions = () => {
                   <span className="capitalize">{transaction.category}</span>
                   <span>•</span>
                   <span className={`px-1.5 py-0.5 rounded text-xs ${
-                    transaction.status === 'cleared' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                    transaction.status==='cleared'?'bg-green-100 text-green-700':'bg-yellow-100 text-yellow-700'
                   }`}>
                     {transaction.status}
                   </span>
                 </div>
               </div>
             </div>
-            <p className={`text-sm font-semibold ${transaction.amount < 0 ? 'text-red-600' : 'text-green-600'}`}>
-              {transaction.amount < 0 ? '-' : '+'}${Math.abs(transaction.amount).toLocaleString()}
+            <p className={`text-sm font-semibold ${transaction.amount<0?'text-red-600':'text-green-600'}`}>
+              {transaction.amount<0?'-':'+'}${Math.abs(transaction.amount).toLocaleString()}
             </p>
           </div>
         ))}
         
-        {filteredTransactions.length === 0 && (
+        {filteredTransactions.length===0 &&(
           <div className="text-center py-8 text-gray-500" role="status">
             No transactions found
           </div>

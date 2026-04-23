@@ -3,13 +3,13 @@ import Card from '../common/Card';
 import { useFetch } from '../../hooks/useFetch';
 import LoadingSpinner from '../common/LoadingSpinner';
 
-const AlertsSection = () => {
-  const { data: alerts, loading, error } = useFetch('/api/alerts');
+const AlertsSection = () =>{
+  const{ data: alerts, loading, error } = useFetch('/api/alerts');
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-red-500 text-sm" role="alert">Unable to load alerts</div>;
 
-  const getAlertIcon = (type) => {
+  const getAlertIcon = (type)=>{
     switch(type) {
       case 'subscription':
         return (
@@ -38,7 +38,7 @@ const AlertsSection = () => {
       </div>
       
       <div className="space-y-4">
-        {alerts?.map((alert, index) => (
+        {alerts?.map((alert, index)=>(
           <div key={index} className="flex items-start space-x-3 pb-3 border-b border-gray-100 last:border-0">
             {getAlertIcon(alert.type)}
             <div className="flex-1">

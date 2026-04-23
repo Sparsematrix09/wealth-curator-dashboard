@@ -10,13 +10,13 @@ const AIInsights = () => {
 
   const handleExecuteStrategy = useCallback(() => {
     trackEvent('click', 'CTA', 'execute_strategy', 'AI Insights');
-    // Navigate without state for better back button support
+    // navigate without state for back button
     navigate('/insights');
   }, [trackEvent, navigate]);
 
   const handleReviewAudit = useCallback(() => {
     trackEvent('click', 'CTA', 'review_audit', 'AI Insights');
-    // Navigate without state for better back button support
+    // navigate without state for back
     navigate('/insights');
   }, [trackEvent, navigate]);
 

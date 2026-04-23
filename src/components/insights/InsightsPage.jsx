@@ -35,7 +35,7 @@ const InsightsPage = () => {
   };
 
   const handleGoBack = () => {
-    navigate(-1); // Go back to previous page
+    navigate(-1); // go back to previous page
   };
 
   if (loading) {
@@ -67,7 +67,6 @@ const InsightsPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header with Back Button */}
       <div className="border-b border-gray-200 pb-4">
         <div className="flex items-center gap-4 mb-2">
           <button 
@@ -88,8 +87,7 @@ const InsightsPage = () => {
         </div>
       </div>
 
-      {/* Rest of your insights content remains the same */}
-      {/* Active Signal - Most Critical Insight */}
+      {/* active signal*/}
       {insights.critical && (
         <Card className="bg-gradient-to-r from-orange-50 to-red-50 border-l-4 border-orange-500">
           <div className="flex items-start justify-between">
@@ -123,11 +121,9 @@ const InsightsPage = () => {
         </Card>
       )}
 
-      {/* Two Column Layout for Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Main Insights */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Portfolio Performance with Working Chart */}
+          {/* portfolio performance */}
           <Card>
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
               Portfolio Performance
@@ -141,7 +137,7 @@ const InsightsPage = () => {
               </div>
             </div>
             
-            {/* Bar Chart */}
+            {/* barchart */}
             <div className="mt-6">
               <div className="flex items-end h-48 gap-2">
                 {insights.performance.history.map((value, idx) => {
@@ -167,7 +163,6 @@ const InsightsPage = () => {
                 })}
               </div>
               
-              {/* Legend */}
               <div className="flex justify-center gap-6 mt-6 pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-primary rounded"></div>
@@ -177,7 +172,7 @@ const InsightsPage = () => {
             </div>
           </Card>
 
-          {/* Cash Flow Intelligence */}
+          {/* cash flow */}
           <Card>
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
               Cash Flow Intelligence
@@ -201,7 +196,7 @@ const InsightsPage = () => {
             </div>
           </Card>
 
-          {/* Recurring Audit & Tax Harvesting */}
+          {/* audit */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <div className="flex items-center space-x-2 mb-3">
@@ -239,9 +234,8 @@ const InsightsPage = () => {
           </div>
         </div>
 
-        {/* Right Column - Market Sentiment & Allocation */}
         <div className="space-y-6">
-          {/* Market Sentiment */}
+          {/* market sentiment */}
           <Card>
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
               Market Sentiment
@@ -270,7 +264,7 @@ const InsightsPage = () => {
             </div>
           </Card>
 
-          {/* Sector Allocation */}
+          {/* sector allocation */}
           <Card>
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
               Sector Allocation
@@ -292,8 +286,8 @@ const InsightsPage = () => {
                     ></div>
                   </div>
                   {sector.change && (
-                    <p className={`text-xs mt-1 ${sector.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {sector.change > 0 ? '+' : ''}{sector.change}% from last quarter
+                    <p className={`text-xs mt-1 ${sector.change>0?'text-green-600':'text-red-600'}`}>
+                      {sector.change>0?'+':''}{sector.change}% from last quarter
                     </p>
                   )}
                 </div>
@@ -301,7 +295,7 @@ const InsightsPage = () => {
             </div>
           </Card>
 
-          {/* Quick Actions */}
+          {/* Few static actions */}
           <Card>
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
               Quick Actions
@@ -317,13 +311,13 @@ const InsightsPage = () => {
                 onClick={() => console.log('Downloading portfolio report...')}
                 className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition"
               >
-                📄 Download Full Report
+                Download Full Report
               </button>
               <button 
                 onClick={() => console.log('Scheduling advisor consultation...')}
                 className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition"
               >
-                👨‍💼 Schedule Advisor Call
+                Schedule Advisor Call
               </button>
             </div>
           </Card>

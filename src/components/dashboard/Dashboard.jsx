@@ -6,9 +6,9 @@ import SpendingBreakdown from './SpendingBreakdown';
 import RecentTransactions from './RecentTransactions';
 import LoadingSpinner from '../common/LoadingSpinner';
 
-const PortfolioVelocity = lazy(() => import('./PortfolioVelocity'));
+const PortfolioVelocity=lazy(() => import('./PortfolioVelocity'));
 
-const Dashboard = () => {
+const Dashboard=()=>{
   return (
     <div className="space-y-6">
       <div>

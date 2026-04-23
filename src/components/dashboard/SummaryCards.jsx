@@ -9,28 +9,10 @@ const SummaryCards = () => {
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-red-500" role="alert">Error loading summary data</div>;
 
-  const cards = [
-    {
-      title: 'Total Net Worth',
-      value: summaryData?.netWorth || 1248500,
-      change: '+12.4%',
-      changeType: 'positive',
-      prefix: '$',
-    },
-    {
-      title: 'Monthly Spending',
-      value: summaryData?.monthlySpending || 4280,
-      change: '+2.1%',
-      changeType: 'warning',
-      prefix: '$',
-    },
-    {
-      title: 'Total Savings',
-      value: summaryData?.totalSavings || 245000,
-      change: 'On track for Q4 goal',
-      changeType: 'neutral',
-      prefix: '$',
-    },
+  const cards=[
+    {title: 'Total Net Worth',value: summaryData?.netWorth || 1248500,change: '+12.4%',changeType: 'positive',prefix: '$',},
+    {title: 'Monthly Spending',value: summaryData?.monthlySpending || 4280,change: '+2.1%',changeType: 'warning',prefix: '$',},
+    {title: 'Total Savings',value: summaryData?.totalSavings || 245000,change: 'On track for Q4 goal',changeType: 'neutral',prefix: '$',},
   ];
 
   return (

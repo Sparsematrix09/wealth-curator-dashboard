@@ -12,7 +12,7 @@ const Button = ({ children, onClick, variant = 'primary', disabled = false, clas
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`${baseStyles} ${variants[variant]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${disabled ? 'opacity-50 cursor-not-allowed':''} ${className}`}
     >
       {children}
     </button>

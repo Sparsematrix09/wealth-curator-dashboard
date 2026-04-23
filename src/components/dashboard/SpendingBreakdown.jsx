@@ -5,7 +5,7 @@ import { useAnalytics } from '../../hooks/useAnalytics';
 import DoughnutChart from '../charts/DoughnutChart';
 import LoadingSpinner from '../common/LoadingSpinner';
 
-const SpendingBreakdown = () => {
+const SpendingBreakdown=()=>{
   const { data: spendingData, loading, error } = useFetch('/api/spending');
   const { trackEvent } = useAnalytics();
 
@@ -23,7 +23,6 @@ const SpendingBreakdown = () => {
 
   const handleViewAll = () => {
     trackEvent('click', 'Navigation', 'view_all_spending', 'Spending Breakdown');
-    // Just log the data instead of showing alert
     console.log('Detailed spending breakdown:', spendingData);
   };
 

@@ -4,7 +4,6 @@ import Layout from './components/layout/Layout';
 import LoadingSpinner from './components/common/LoadingSpinner';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import { AnalyticsProvider } from './services/analytics';
-
 const Dashboard = lazy(() => import('./components/dashboard/Dashboard'));
 const InsightsPage = lazy(() => import('./components/insights/InsightsPage'));
 
@@ -29,5 +28,4 @@ function App() {
     </ErrorBoundary>
   );
 }
-
 export default App;
